@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nextcloud-deployment
+spec:
+  replicas: 2            # Chcemy mieć 2 kopie aplikacji dla testu Rolling Update!
+  selector:
+    matchLabels:
+      aplikacja: chmura-nextcloud
+  template:
+    metadata:
+      labels:
+        aplikacja: chmura-nextcloud
+    spec:
+      containers:
+      - name: nextcloud-kontener
+        image: nextcloud:28 # Czysta, pełna wersja 27 z wbudowanym serwerem www
+        ports:
+        - containerPort: 80
+        env:
+        - name: POSTGRES_HOST
+          value: postgres-service  # Stała nazwa sieciowa naszej bazy
+        - name: POSTGRES_DB
+          value: sklep_db
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-sejf
+              key: login-bazy
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-sejf
+              key: haslo-bazy
+        volumeMounts:    # TU DOPISUJEMY: Folder z plikami i konfiguracją Nextclouda
+        - name: nextcloud-dane
+          mountPath: /var/www/html
+      volumes:           # TU DOPISUJEMY: Połączenie z naszą nową rezerwacją PVC
+      - name: nextcloud-dane
+        persistentVolumeClaim:
+          claimName: nextcloud-pvc
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nextcloud-service
+spec:
+  type: NodePort
+  selector:
+    aplikacja: chmura-nextcloud
+  ports:
+  - port: 80
+    targetPort: 80
+    nodePort: 30083      # Otwieramy stały port klastra dla Nextclouda

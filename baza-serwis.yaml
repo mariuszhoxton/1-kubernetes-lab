@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-service  # To będzie stała, niezmienna nazwa sieciowa bazy danych!
+spec:
+  type: ClusterIP         # Bezpieczny typ – widoczny tylko wewnątrz klastra
+  selector:
+    aplikacja: baza-danych # Magnes szuka Podu z bazą danych
+  ports:
+  - port: 5432            # Port, na którym serwis będzie słuchał w klastrze
+    targetPort: 5432      # Port w kontenerze Postgresa

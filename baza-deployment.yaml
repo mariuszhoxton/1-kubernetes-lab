@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres-deployment
+spec:
+  replicas: 1            # Bazy danych (w prostej konfiguracji) nie skalujemy do wielu replik!
+  selector:
+    matchLabels:
+      aplikacja: baza-danych
+  template:
+    metadata:
+      labels:
+        aplikacja: baza-danych
+    spec:
+      containers:
+      - name: postgres-kontener
+        image: postgres:15-alpine
+        env:             # Konfigurujemy hasło i użytkownika przez zmienne środowiskowe
+        - name: POSTGRES_DB
+          value: sklep_db
+        - name: POSTGRES_USER
+          valueFrom:
+            secretKeyRef:
+              name: postgres-sejf
+              key: login-bazy
+        - name: POSTGRES_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-sejf
+              key: haslo-bazy
+        ports:
+        - containerPort: 5432 # Standardowy port bazy PostgreSQL
+        volumeMounts:    # TU JEST MAGIA: Wskazujemy folder wewnątrz kontenera, gdzie Postgres trzyma dane
+        - name: postgres-wolumen-sieciowy
+          mountPath: /var/lib/postgresql/data
+      volumes:           # A tutaj łączymy ten folder z naszym wczorajszym PVC!
+      - name: postgres-wolumen-sieciowy
+        persistentVolumeClaim:
+          claimName: postgres-pvc # Nazwa naszego zarezerwowanego dysku

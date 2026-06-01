@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: postgres-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce    # Dysk może być montowany i zapisywany przez jeden Pod na raz
+  resources:
+    requests:
+      storage: 1Gi     # Rezerwujemy 1 Gigabajt przestrzeni na dysku laptopa
