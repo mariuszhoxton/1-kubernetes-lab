@@ -23,10 +23,9 @@ kind: Service
 metadata:
   name: adminer-service
 spec:
-  type: NodePort
+  type: LoadBalancer # Poprawiono z NodePort na LoadBalancer dla MetalLB
   selector:
     aplikacja: panel-adminera
   ports:
-  - port: 8080
-    targetPort: 8080
-    nodePort: 30082
+  - port: 80         # Port zewnętrzny dla MetalLB (.220)
+    targetPort: 8080 # Port wewnątrz kontenera Adminera
