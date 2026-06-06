@@ -1,0 +1,28 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: nextcloud-to-ad-firewall
+  namespace: default
+spec:
+  podSelector:
+    matchLabels:
+      aplikacja: chmura-nextcloud
+  policyTypes:
+  - Egress
+  egress:
+  - to:
+    - namespaceSelector: {}
+      podSelector:
+        matchLabels:
+          k8s-app: kube-dns
+    ports:
+    - protocol: UDP
+      port: 53
+  - to:
+    - ipBlock:
+        cidr: 192.168.55.10/32
+    ports:
+    - protocol: TCP
+      port: 389
+    - protocol: TCP
+      port: 636
