@@ -45,7 +45,7 @@ kind: Service
 metadata:
   name: nextcloud-service
 spec:
-  type: NodePort
+  type: LoadBalancer
   selector:
     aplikacja: chmura-nextcloud
   ports:
