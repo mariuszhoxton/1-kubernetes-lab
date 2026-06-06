@@ -18,5 +18,5 @@ spec:
     - protocol: TCP
       port: 80
   # Reguła 2: SYSTEMOWA - Pozwól ruchowi z innych przestrzeni nazw (np. MetalLB) przechodzić do klastra
-  - from:
-    - namespaceSelector: {}
+  #- from:
+  #  - namespaceSelector: {}
