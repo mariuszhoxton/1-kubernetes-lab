@@ -10,9 +10,13 @@ spec:
   policyTypes:
   - Ingress
   ingress:
+  # Reguła 1: Twój domowy laptop / sieć lokalna Centrali
   - from:
     - ipBlock:
         cidr: 192.168.55.0/24
     ports:
     - protocol: TCP
       port: 80
+  # Reguła 2: SYSTEMOWA - Pozwól ruchowi z innych przestrzeni nazw (np. MetalLB) przechodzić do klastra
+  - from:
+    - namespaceSelector: {}
