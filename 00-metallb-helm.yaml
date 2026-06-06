@@ -1,0 +1,9 @@
+apiVersion: helm.cattle.io/v1
+kind: HelmChart                      # SŁOWO-KLUCZ: Mówimy K3s, że ma pobrać paczkę z internetu
+metadata:
+  name: metallb
+  namespace: kube-system             # System zarządzania instalacjami K3s
+spec:
+  chart: metallb                     # Nazwa programu, który chcemy pobrać
+  repo: https://metallb.github.io/metallb # Oficjalne repozytorium (sklep z pakietami) MetalLB
+  targetNamespace: metallb-system    # Gdzie fizycznego ma zainstalować ten program
