@@ -23,7 +23,7 @@ kind: Service
 metadata:
   name: adminer-service
 spec:
-  type:ClusterIP         # Bezpieczny typ, ruch wpuści Ingress
+  type: ClusterIP         # Bezpieczny typ, ruch wpuści Ingress
   selector:
     aplikacja: panel-adminera
   ports:
