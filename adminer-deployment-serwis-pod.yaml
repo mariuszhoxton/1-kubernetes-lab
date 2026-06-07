@@ -23,9 +23,9 @@ kind: Service
 metadata:
   name: adminer-service
 spec:
-  type: LoadBalancer # Poprawiono z NodePort na LoadBalancer dla MetalLB
+  type:ClusterIP         # Bezpieczny typ, ruch wpuści Ingress
   selector:
     aplikacja: panel-adminera
   ports:
-  - port: 80         # Port zewnętrzny dla MetalLB (.220)
+  - port: 8080            # Port zgodny z Twoim plikiem Ingress!
     targetPort: 8080 # Port wewnątrz kontenera Adminera
