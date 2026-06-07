@@ -47,7 +47,7 @@ kind: Service
 metadata:
   name: nextcloud-service
 spec:
-  type: LoadBalancer
+  type: ClusterIP         # Zmieniono z LoadBalancer na ClusterIP pod Ingressa
   selector:
     aplikacja: chmura-nextcloud
   ports:
