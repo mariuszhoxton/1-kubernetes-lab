@@ -12,4 +12,4 @@ spec:
   chart: metallb                     # Nazwa programu, który chcemy pobrać
   repo: https://metallb.github.io/metallb # Oficjalne repozytorium (sklep z pakietami) MetalLB
   targetNamespace: metallb-system    # Gdzie fizycznego ma zainstalować ten program
-  version: 0.13.12                  # Wersja programu, którą chcemy zainstalować
+  createNamespace: true              
